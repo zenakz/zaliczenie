@@ -47,11 +47,33 @@ class CoffeeMachineTest {
         assertEquals(0,result.getMilkAmout());
     }
 
-
-
     @Test
     public void itCompiles() {
         assertThat(true, Matchers.equalTo(true));
+    }
+
+
+    @Test
+    void properOrderShouldCallGrinderAndReceipes(){
+        CoffeeSize unrelevant = CoffeeSize.DOUBLE;
+        CoffeType anyType = CoffeType.CAPUCCINO;
+        CoffeOrder coffeOrder = CoffeOrder.builder().withSize(unrelevant).withType(anyType).build();
+        setFunctions(unrelevant, anyType);
+        Coffee result = coffeeMachine.make(coffeOrder);
+
+        verify(grinder).canGrindFor(unrelevant);
+        verify(coffeeReceipes, times(2)).getReceipe(anyType);
+    }
+
+    @Test
+    void ungrindableSizeShouldReturnInError(){
+        CoffeeSize unrelevant = CoffeeSize.DOUBLE;
+        CoffeType anyType = CoffeType.CAPUCCINO;
+        CoffeOrder coffeOrder = CoffeOrder.builder().withSize(unrelevant).withType(anyType).build();
+        when(grinder.canGrindFor(unrelevant)).thenReturn(false);
+        assertThrows(NoCoffeeBeansException.class, ()->{
+            coffeeMachine.make(coffeOrder);
+        });
     }
 
     private void setFunctions(CoffeeSize size, CoffeType type){
@@ -64,15 +86,4 @@ class CoffeeMachineTest {
         when(coffeeReceipes.getReceipe(anyType)).thenReturn(receipe);
     }
 
-    @Test
-    void properOrderShouldCallGrinderAndReceipes(){
-        CoffeeSize unrelevant = CoffeeSize.DOUBLE;
-        CoffeType anyType = CoffeType.CAPUCCINO;
-        CoffeOrder coffeOrder = CoffeOrder.builder().withSize(unrelevant).withType(anyType).build();
-        setFunctions(unrelevant, anyType);
-        Coffee result = coffeeMachine.make(coffeOrder);
-        
-        verify(grinder).canGrindFor(unrelevant);
-        verify(coffeeReceipes, times(2)).getReceipe(anyType);
-    }
 }
