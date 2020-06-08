@@ -1,15 +1,15 @@
 package edu.iis.mto.testreactor.coffee;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Test;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Test;
 
-public class CoffeeMachineTest {
+class CoffeeMachineTest {
 
     @Test
     public void itCompiles() {
-        assertThat(true, equalTo(true));
+        assertThat(true, Matchers.equalTo(true));
     }
 
 }
