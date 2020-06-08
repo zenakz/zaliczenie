@@ -40,33 +40,38 @@ class CoffeeMachineTest {
         CoffeeSize unrelevant = CoffeeSize.DOUBLE;
         CoffeType anyType = CoffeType.CAPUCCINO;
         CoffeOrder coffeOrder = CoffeOrder.builder().withSize(unrelevant).withType(anyType).build();
-        //when(coffeeReceipes.getReceipe(anyType).withMilk()).thenReturn(false);
-        when(grinder.canGrindFor(unrelevant)).thenReturn(true);
-        when(grinder.grind(unrelevant)).thenReturn(5d);
-        CoffeeReceipe receipe = CoffeeReceipe.builder().withMilkAmount(0).withWaterAmounts(waterAmounts).build();
-        when(coffeeReceipes.getReceipe(anyType)).thenReturn(receipe);
+        setFunctions(unrelevant,anyType);
+
         Coffee result = coffeeMachine.make(coffeOrder);
+
         assertEquals(0,result.getMilkAmout());
     }
-    
+
+
 
     @Test
     public void itCompiles() {
         assertThat(true, Matchers.equalTo(true));
     }
 
+    private void setFunctions(CoffeeSize size, CoffeType type){
+        CoffeeSize unrelevant = CoffeeSize.DOUBLE;
+        CoffeType anyType = CoffeType.CAPUCCINO;
+        CoffeOrder coffeOrder = CoffeOrder.builder().withSize(unrelevant).withType(anyType).build();
+        when(grinder.canGrindFor(unrelevant)).thenReturn(true);
+        when(grinder.grind(unrelevant)).thenReturn(5d);
+        CoffeeReceipe receipe = CoffeeReceipe.builder().withMilkAmount(0).withWaterAmounts(waterAmounts).build();
+        when(coffeeReceipes.getReceipe(anyType)).thenReturn(receipe);
+    }
 
     @Test
     void properOrderShouldCallGrinderAndReceipes(){
         CoffeeSize unrelevant = CoffeeSize.DOUBLE;
         CoffeType anyType = CoffeType.CAPUCCINO;
         CoffeOrder coffeOrder = CoffeOrder.builder().withSize(unrelevant).withType(anyType).build();
-        //when(coffeeReceipes.getReceipe(anyType).withMilk()).thenReturn(false);
-        when(grinder.canGrindFor(unrelevant)).thenReturn(true);
-        when(grinder.grind(unrelevant)).thenReturn(5d);
-        CoffeeReceipe receipe = CoffeeReceipe.builder().withMilkAmount(0).withWaterAmounts(waterAmounts).build();
-        when(coffeeReceipes.getReceipe(anyType)).thenReturn(receipe);
+        setFunctions(unrelevant, anyType);
         Coffee result = coffeeMachine.make(coffeOrder);
+        
         verify(grinder).canGrindFor(unrelevant);
         verify(coffeeReceipes, times(2)).getReceipe(anyType);
     }
