@@ -34,25 +34,16 @@ public class CoffeeMachine {
 
     private Coffee create(CoffeOrder order, double coffeeWeightGr) {
         CoffeeReceipe receipe = getReceipe(order);
-        Coffee coffee = new Coffee();
         int waterAmount = getWaterAmount(order, receipe);
-        coffee.setWaterAmount(waterAmount);
+        Coffee coffee = new Coffee();
         coffee.setCoffeeWeigthGr(coffeeWeightGr);
+        coffee.setWaterAmount(waterAmount);
         return coffee;
-    }
-
-    private CoffeeReceipe getReceipe(CoffeOrder order) {
-        CoffeeReceipe receipe = receipes.getReceipe(order.getType());
-        if (isNull(receipe)) {
-            throw new UnsupportedCoffeeException(order.getType());
-        }
-        return receipe;
     }
 
     private void addMilk(CoffeOrder order, Coffee coffee) {
         if (isMilkCoffee(order.getType())) {
-            int milkAmount = receipes.getReceipe(order.getType())
-                                     .getMilkAmount();
+            int milkAmount = getReceipe(order).getMilkAmount();
             try {
                 milkProvider.heat();
                 milkProvider.pour(milkAmount);
@@ -61,6 +52,14 @@ public class CoffeeMachine {
                 coffee.setMilkAmout(0);
             }
         }
+    }
+
+    private CoffeeReceipe getReceipe(CoffeOrder order) {
+        CoffeeReceipe receipe = receipes.getReceipe(order.getType());
+        if (isNull(receipe)) {
+            throw new UnsupportedCoffeeException(order.getType());
+        }
+        return receipe;
     }
 
     private boolean isMilkCoffee(CoffeType type) {
