@@ -1,4 +1,4 @@
-package edu.iis.mto.testreactor.exc1;
+package edu.iis.mto.testreactor.coffee;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
