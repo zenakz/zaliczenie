@@ -34,23 +34,24 @@ public class CoffeeMachine {
 
     private Coffee create(CoffeOrder order, double coffeeWeightGr) {
         CoffeeReceipe receipe = getReceipe(order);
-        int waterAmount = getWaterAmount(order, receipe);
         Coffee coffee = new Coffee();
+        coffee.setWaterAmount(getWaterAmount(order, receipe));
         coffee.setCoffeeWeigthGr(coffeeWeightGr);
-        coffee.setWaterAmount(waterAmount);
         return coffee;
     }
 
     private void addMilk(CoffeOrder order, Coffee coffee) {
         if (isMilkCoffee(order.getType())) {
-            int milkAmount = getReceipe(order).getMilkAmount();
             try {
+                int milkAmount = getReceipe(order).getMilkAmount();
                 milkProvider.heat();
                 milkProvider.pour(milkAmount);
                 coffee.setMilkAmout(milkAmount);
             } catch (MilkProviderException e) {
                 coffee.setMilkAmout(0);
             }
+        } else {
+            coffee.setMilkAmout(0);
         }
     }
 
