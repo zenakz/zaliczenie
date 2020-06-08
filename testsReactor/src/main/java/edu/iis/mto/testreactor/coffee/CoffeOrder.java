@@ -1,6 +1,6 @@
 package edu.iis.mto.testreactor.coffee;
 
-import java.util.Objects;
+import static java.util.Objects.requireNonNull;
 
 public class CoffeOrder {
 
@@ -8,8 +8,8 @@ public class CoffeOrder {
     private final CoffeType type;
 
     private CoffeOrder(Builder builder) {
-        this.size = Objects.requireNonNull(builder.size, "size == null");
-        this.type = Objects.requireNonNull(builder.type, "type == null");
+        this.size = requireNonNull(builder.size, "size == null");
+        this.type = requireNonNull(builder.type, "type == null");
     }
 
     public CoffeeSize getSize() {

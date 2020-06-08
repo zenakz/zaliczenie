@@ -2,7 +2,6 @@ package edu.iis.mto.testreactor.coffee;
 
 import java.util.Collections;
 import java.util.Map;
-import java.util.Objects;
 
 public class CoffeeReceipe {
 
@@ -10,7 +9,7 @@ public class CoffeeReceipe {
     private final int milkAmount;
 
     private CoffeeReceipe(Builder builder) {
-        this.waterAmounts = Objects.requireNonNull(builder.waterAmounts);
+        this.waterAmounts = builder.waterAmounts;
         this.milkAmount = builder.milkAmount;
     }
 

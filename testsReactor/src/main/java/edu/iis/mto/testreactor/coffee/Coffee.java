@@ -2,22 +2,31 @@ package edu.iis.mto.testreactor.coffee;
 
 public class Coffee {
 
-    private int waterAmount;
-    private int milkAmout;
+    private Integer waterAmount;
+    private Double coffeeWeigthGr;
+    private Integer milkAmout;
 
-    public int getWaterAmount() {
+    public Integer getWaterAmount() {
         return waterAmount;
     }
 
-    public void setWaterAmount(int waterAmount) {
+    public void setWaterAmount(Integer waterAmount) {
         this.waterAmount = waterAmount;
     }
 
-    public int getMilkAmout() {
+    public Double getCoffeeWeigthGr() {
+        return coffeeWeigthGr;
+    }
+
+    public void setCoffeeWeigthGr(Double coffeeWeigthGr) {
+        this.coffeeWeigthGr = coffeeWeigthGr;
+    }
+
+    public Integer getMilkAmout() {
         return milkAmout;
     }
 
-    public void setMilkAmout(int milkAmout) {
+    public void setMilkAmout(Integer milkAmout) {
         this.milkAmout = milkAmout;
     }
 
