@@ -3,6 +3,8 @@ package edu.iis.mto.testreactor.coffee;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
 
+import java.util.Optional;
+
 import edu.iis.mto.testreactor.coffee.milkprovider.MilkProvider;
 import edu.iis.mto.testreactor.coffee.milkprovider.MilkProviderException;
 
@@ -33,18 +35,17 @@ public class CoffeeMachine {
     }
 
     private Coffee create(CoffeOrder order, double coffeeWeightGr) {
-        CoffeeReceipe receipe = getReceipe(order);
-        int waterAmount = getWaterAmount(order, receipe);
+        CoffeeReceipe receipe = getReceipe(order.getType());
         Coffee coffee = new Coffee();
         coffee.setCoffeeWeigthGr(coffeeWeightGr);
-        coffee.setWaterAmount(waterAmount);
+        coffee.setWaterAmount(getWaterAmount(order, receipe));
         return coffee;
     }
 
     private void addMilk(CoffeOrder order, Coffee coffee) {
         if (isMilkCoffee(order.getType())) {
-            int milkAmount = getReceipe(order).getMilkAmount();
             try {
+                int milkAmount = getReceipe(order.getType()).getMilkAmount();
                 milkProvider.heat();
                 milkProvider.pour(milkAmount);
                 coffee.setMilkAmout(milkAmount);
@@ -54,17 +55,16 @@ public class CoffeeMachine {
         }
     }
 
-    private CoffeeReceipe getReceipe(CoffeOrder order) {
-        CoffeeReceipe receipe = receipes.getReceipe(order.getType());
-        if (isNull(receipe)) {
-            throw new UnsupportedCoffeeException(order.getType());
+    private CoffeeReceipe getReceipe(CoffeType type) {
+        Optional<CoffeeReceipe> receipe = receipes.getReceipe(type);
+        if (receipe.isEmpty()) {
+            throw new UnsupportedCoffeeException(type);
         }
-        return receipe;
+        return receipe.get();
     }
 
     private boolean isMilkCoffee(CoffeType type) {
-        return receipes.getReceipe(type)
-                       .withMilk();
+        return getReceipe(type).withMilk();
     }
 
     private int getWaterAmount(CoffeOrder order, CoffeeReceipe receipe) {

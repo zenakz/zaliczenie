@@ -1,5 +1,7 @@
 package edu.iis.mto.testreactor.coffee;
 
+import java.util.Optional;
+
 public class Coffee {
 
     private Integer waterAmount;
@@ -22,8 +24,8 @@ public class Coffee {
         this.coffeeWeigthGr = coffeeWeigthGr;
     }
 
-    public Integer getMilkAmout() {
-        return milkAmout;
+    public Optional<Integer> getMilkAmout() {
+        return Optional.ofNullable(milkAmout);
     }
 
     public void setMilkAmout(Integer milkAmout) {

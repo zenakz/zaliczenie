@@ -1,6 +1,8 @@
 package edu.iis.mto.testreactor.coffee;
 
+import java.util.Optional;
+
 public interface CoffeeReceipes {
 
-    CoffeeReceipe getReceipe(CoffeType type);
+    Optional<CoffeeReceipe> getReceipe(CoffeType type);
 }
